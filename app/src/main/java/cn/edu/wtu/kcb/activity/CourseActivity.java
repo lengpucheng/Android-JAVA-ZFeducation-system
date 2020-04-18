@@ -431,29 +431,4 @@ public class CourseActivity extends AppCompatActivity {
         return (int) (dpValue * scale + 0.5f);
     }
 
-    //设置边距（单位px)
-    public ViewGroup.LayoutParams setViewMargin(View view, int left, int right, int top, int bottom) {
-        if (view == null) {
-            return null;
-        }
-        int leftPx = left;
-        int rightPx = right;
-        int topPx = top;
-        int bottomPx = bottom;
-        ViewGroup.LayoutParams params = view.getLayoutParams();
-        ViewGroup.MarginLayoutParams marginParams = null;
-        //获取view的margin设置参数
-        if (params instanceof ViewGroup.MarginLayoutParams) {
-            marginParams = (ViewGroup.MarginLayoutParams) params;
-        } else {
-            //不存在时创建一个新的参数
-            marginParams = new ViewGroup.MarginLayoutParams(params);
-        }
-        //设置margin
-        marginParams.setMargins(leftPx, topPx, rightPx, bottomPx);
-        view.setLayoutParams(marginParams);
-        return marginParams;
-    }
-
-
 }
