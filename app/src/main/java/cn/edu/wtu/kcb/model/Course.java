@@ -21,6 +21,7 @@ public class Course implements Serializable {
     private String job="";//职务
     private String test="";//考试方法
 
+    //转为为ContentValues
     public ContentValues getCV(){
         ContentValues values=new ContentValues();
         values.put("id",id);
@@ -37,6 +38,8 @@ public class Course implements Serializable {
         values.put("test",test);
         return values;
     }
+
+    //从Cursor获取Course对象组
     public static List<Course> getCourses(Cursor cursor){
         List<Course> courses=new ArrayList<>();
         while (cursor.moveToNext()){
@@ -173,6 +176,7 @@ public class Course implements Serializable {
                 '}';
     }
 
+    //显示信息
     public String showInfo() {
         return "课程："+name+"\n地点："+campus+room+"\n时间："+wMin+"-"+wMax+"周"+week
                 +tMin+"-"+tMax+"节\n老师："+ teacher +job+"\n考试方式："+test;
