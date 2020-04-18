@@ -13,9 +13,11 @@ public class Course implements Serializable {
     private String campus="";//校区
     private String room="";//教室
     private String week="";//星期
-    private String time="";//节
-    private String data="";//持续时间
-    private String teacther="";//老师
+    private int tMin=1;//开始节
+    private int tMax=2;//结束节
+    private int wMin=1;//开始周
+    private int wMax=2;//结束周
+    private String teacher ="";//老师
     private String job="";//职务
     private String test="";//考试方法
 
@@ -26,9 +28,11 @@ public class Course implements Serializable {
         values.put("campus",campus);
         values.put("room",room);
         values.put("week",week);
-        values.put("time",time);
-        values.put("data",data);
-        values.put("teacther",teacther);
+        values.put("tMin",tMin);
+        values.put("tMax",tMax);
+        values.put("wMin",wMin);
+        values.put("wMax",wMax);
+        values.put("teacher", teacher);
         values.put("job",job);
         values.put("test",test);
         return values;
@@ -42,16 +46,49 @@ public class Course implements Serializable {
             course.setCampus(cursor.getString(3));
             course.setRoom(cursor.getString(4));
             course.setWeek(cursor.getString(5));
-            course.setTime(cursor.getString(6));
-            course.setData(cursor.getString(7));
-            course.setTeacther(cursor.getString(8));
-            course.setJob(cursor.getString(9));
-            course.setTest(cursor.getString(10));
+            course.settMin(cursor.getInt(6));
+            course.settMax(cursor.getInt(7));
+            course.setwMin(cursor.getInt(8));
+            course.setwMax(cursor.getInt(9));
+            course.setTeacher(cursor.getString(10));
+            course.setJob(cursor.getString(11));
+            course.setTest(cursor.getString(12));
             courses.add(course);
         }
         return courses;
     }
 
+    public int gettMin() {
+        return tMin;
+    }
+
+    public void settMin(int tMin) {
+        this.tMin = tMin;
+    }
+
+    public int gettMax() {
+        return tMax;
+    }
+
+    public void settMax(int tMax) {
+        this.tMax = tMax;
+    }
+
+    public int getwMin() {
+        return wMin;
+    }
+
+    public void setwMin(int wMin) {
+        this.wMin = wMin;
+    }
+
+    public int getwMax() {
+        return wMax;
+    }
+
+    public void setwMax(int wMax) {
+        this.wMax = wMax;
+    }
 
     public String getId() {
         return id;
@@ -93,28 +130,13 @@ public class Course implements Serializable {
         this.week = week;
     }
 
-    public String getTime() {
-        return time;
+
+    public String getTeacher() {
+        return teacher;
     }
 
-    public void setTime(String time) {
-        this.time = time;
-    }
-
-    public String getData() {
-        return data;
-    }
-
-    public void setData(String data) {
-        this.data = data;
-    }
-
-    public String getTeacther() {
-        return teacther;
-    }
-
-    public void setTeacther(String teacther) {
-        this.teacther = teacther;
+    public void setTeacher(String teacher) {
+        this.teacher = teacher;
     }
 
     public String getJob() {
@@ -141,14 +163,18 @@ public class Course implements Serializable {
                 ", campus='" + campus + '\'' +
                 ", room='" + room + '\'' +
                 ", week='" + week + '\'' +
-                ", time='" + time + '\'' +
-                ", data='" + data + '\'' +
-                ", teacther='" + teacther + '\'' +
+                ", tMin=" + tMin +
+                ", tMax=" + tMax +
+                ", wMin=" + wMin +
+                ", wMax=" + wMax +
+                ", teacther='" + teacher + '\'' +
                 ", job='" + job + '\'' +
                 ", test='" + test + '\'' +
                 '}';
     }
-    public String toString2() {
-        return "课程："+name+"\n地点："+campus+room+"\n时间："+data+week+time+"节\n老师："+teacther+job+"\n考试方式："+test;
+
+    public String showInfo() {
+        return "课程："+name+"\n地点："+campus+room+"\n时间："+wMin+"-"+wMax+"周"+week
+                +tMin+"-"+tMax+"节\n老师："+ teacher +job+"\n考试方式："+test;
     }
 }

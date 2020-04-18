@@ -308,20 +308,8 @@ public class CourseActivity extends AppCompatActivity {
             String str = "";
 
             //获取当前课的周期,转换为纯数字和-，按-分隔
-            String[] data = course.getData().replaceAll("[^\\d-]", "").split("-");
-            //取得最大和最小周数
-            int MIN = 0;
-            try {
-                MIN = Integer.valueOf(data[0]);
-            } catch (Exception e) {
-                MIN=0;
-            }
-            int MAX = 0;
-            try {
-                MAX = Integer.valueOf(data[1]);
-            } catch (Exception e) {
-                MAX=99;
-            }
+           int MIN=course.getwMin();
+           int MAX=course.getwMax();
             if (MIN > weeks || weeks > MAX) {
                 str += "[非本周]";
                 //设置灰色
@@ -329,51 +317,46 @@ public class CourseActivity extends AppCompatActivity {
             }
             str += course.getName();
             str += "@" + course.getRoom();
-            str += "#" + course.getTeacther() + course.getJob();
+            str += "#" + course.getTeacher() + course.getJob();
             str += "|" + course.getTest();
             textView.setText(str);
             //设置高度
-            String[] tiem = course.getTime().split("-");
-            int height = 0;
-            try {
-                height = Integer.valueOf(tiem[1]) - Integer.valueOf(tiem[0]);
-            } catch (Exception e) {
-                height=1;
-            }
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(d, dip2px((height + 1) * 65));
+            MIN=course.gettMin();
+            MAX=course.gettMax();
+            int height =MAX-MIN+1;
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(d, dip2px(height* 65));
             //设置位置
-            int week = 1;
+            int week = 6;
             switch (course.getWeek()) {
                 case "星期一":
-                    week = 1;
+                    week = 0;
                     break;
                 case "星期二":
-                    week = 2;
+                    week = 1;
                     break;
                 case "星期三":
-                    week = 3;
+                    week = 2;
                     break;
                 case "星期四":
-                    week = 4;
+                    week = 3;
                     break;
                 case "星期五":
-                    week = 5;
+                    week = 4;
                     break;
                 case "星期六":
-                    week = 6;
+                    week = 5;
                     break;
                 case "星期七":
-                    week = 7;
+                    week = 6;
                     break;
                 default:
                     break;
             }
             //左边-星期，  上边-节
-            params.setMargins((week - 1) * d, dip2px((Integer.valueOf(tiem[0]) - 1) * 65), 0, 0);
+            params.setMargins(week * d, dip2px((MIN - 1) * 65), 0, 0);
             textView.setLayoutParams(params);
             textView.setTextSize(12);
             textView.setTextColor(Color.WHITE);
-
             //结尾显示省略号
             textView.setEllipsize(TextUtils.TruncateAt.END);
 
@@ -386,7 +369,7 @@ public class CourseActivity extends AppCompatActivity {
             textView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(CourseActivity.this).setTitle(course.getName()).setMessage(course.toString2())
+                    AlertDialog.Builder builder = new AlertDialog.Builder(CourseActivity.this).setTitle(course.getName()).setMessage(course.showInfo())
                             .setPositiveButton("知道了", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {

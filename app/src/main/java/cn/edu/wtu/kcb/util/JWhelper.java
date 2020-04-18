@@ -370,9 +370,40 @@ public class JWhelper {
             course.setCampus(lesson.getString("xqmc"));
             course.setRoom(lesson.getString("cdmc"));
             course.setWeek(lesson.getString("xqjmc"));
-            course.setTime(lesson.getString("jcs"));
-            course.setData(lesson.getString("zcd"));
-            course.setTeacther(lesson.getString("xm"));
+            //————————————————————————设置开始和结束节——————————————————————————
+            String str=lesson.getString("jcs");
+            //仅保留 -和数字
+            String[] strs=str.replaceAll("[^\\d-]", "").split("-");
+            int min=1;
+            try {
+                 min=Integer.parseInt(strs[0]);
+            } catch (Exception e) {
+                min=1;
+            }
+            int max=min;
+            try {
+                max=Integer.parseInt(strs[1]);
+            } catch (Exception e) {
+                max=min;
+            }
+            course.settMin(min);
+            course.settMax(max);
+            //——————————————————————设置开始和结束周————————————————————————
+            str=lesson.getString("zcd");
+            strs=str.replaceAll("[^\\d-]", "").split("-");
+            try {
+                min=Integer.parseInt(strs[0]);
+            } catch (Exception e) {
+                min=1;
+            }
+            try {
+                max=Integer.parseInt(strs[1]);
+            } catch (Exception e) {
+                max=min;
+            }
+            course.setwMin(min);
+            course.setwMax(max);
+            course.setTeacher(lesson.getString("xm"));
             course.setJob(lesson.getString("zcmc"));
             course.setTest(lesson.getString("khfsmc"));
             courses.add(course);

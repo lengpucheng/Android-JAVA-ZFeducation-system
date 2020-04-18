@@ -90,17 +90,16 @@ public class EditCourseActivity extends AppCompatActivity {
             default:
                 break;
         }
-        String[] data = kcourse.getTime().replaceAll("[^\\d-]", "").split("-");
-        String MIN = data[0];
-        String MAX = data[1];
-        couClaMin.setText(MIN);
-        couClaMax.setText(MAX);
-        data = kcourse.getData().replaceAll("[^\\d-]", "").split("-");
-        MIN = data[0];
-        MAX = data[1];
-        couWekaMin.setText(MIN);
-        couWekaMax.setText(MAX);
-        couTech.setText(kcourse.getTeacther());
+        int MIN = kcourse.gettMin();
+        int MAX = kcourse.gettMax();
+        couClaMin.setText(String.valueOf(MIN));
+        couClaMax.setText(String.valueOf(MAX));
+
+        MIN = kcourse.getwMin();
+        MAX = kcourse.getwMax();
+        couWekaMin.setText(String.valueOf(MIN));
+        couWekaMax.setText(String.valueOf(MAX));
+        couTech.setText(kcourse.getTeacher());
         couTes.setText(kcourse.getTest());
     }
 
@@ -141,9 +140,11 @@ public class EditCourseActivity extends AppCompatActivity {
         kcourse.setName(couName.getText().toString());
         kcourse.setRoom(couHouse.getText().toString());
         kcourse.setWeek(couWeek.getSelectedItem().toString());
-        kcourse.setTime(couClaMin.getText().toString() + "-" + couClaMax.getText().toString());
-        kcourse.setData(couWekaMin.getText().toString() + "-" + couWekaMax.getText().toString() + "周");
-        kcourse.setTeacther(couTech.getText().toString());
+        kcourse.settMin(Integer.parseInt(couClaMin.getText().toString()));
+        kcourse.settMax(Integer.parseInt(couClaMax.getText().toString()));
+        kcourse.setwMin(Integer.parseInt(couWekaMin.getText().toString()));
+        kcourse.setwMax(Integer.parseInt(couWekaMax.getText().toString()));
+        kcourse.setTeacher(couTech.getText().toString());
         kcourse.setTest(couTes.getText().toString());
         return true;
     }
