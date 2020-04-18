@@ -15,7 +15,7 @@ import androidx.annotation.Nullable;
 public class CourseProvider extends ContentProvider {
     //获取类绝对路径
     public static final String AUTHORITES=CourseProvider.class.getCanonicalName();
-    private DBhelp dBhelp;
+    private DBhelper dBhelper;
     public static final Uri URI_COURSE=Uri.parse("content://"+AUTHORITES+"/course");
     private static UriMatcher uriMatcher;
     public static final int CONTACT = 1;
@@ -28,9 +28,9 @@ public class CourseProvider extends ContentProvider {
     @Override
     public boolean onCreate() {
         //获取当前上下文
-        dBhelp=new DBhelp(getContext());
+        dBhelper =new DBhelper(getContext());
         //判断是否创建成功
-        if(dBhelp!=null)
+        if(dBhelper !=null)
             return true;
         return false;
     }
@@ -42,8 +42,8 @@ public class CourseProvider extends ContentProvider {
         Cursor cursor = null;
         switch (mactch) {
             case CONTACT:
-                SQLiteDatabase db = dBhelp.getWritableDatabase();//只读
-                cursor = db.query(DBhelp.T_COURSE, projection, selection, selectionArgs, null, null, sortOrder);
+                SQLiteDatabase db = dBhelper.getWritableDatabase();//只读
+                cursor = db.query(DBhelper.T_COURSE, projection, selection, selectionArgs, null, null, sortOrder);
                 if (cursor != null) {
                     Log.i("TAG", "query: Success");
                 }
@@ -66,8 +66,8 @@ public class CourseProvider extends ContentProvider {
         int mactch=uriMatcher.match(uri);
         switch (mactch) {
             case CONTACT:
-                SQLiteDatabase db = dBhelp.getReadableDatabase();
-                long id = db.insert(DBhelp.T_COURSE, null, values);
+                SQLiteDatabase db = dBhelper.getReadableDatabase();
+                long id = db.insert(DBhelper.T_COURSE, null, values);
                 if (id != -1) {
                     Log.i("TAG", "insert: Success" + id);
                     //将uri向后拼接
@@ -86,8 +86,8 @@ public class CourseProvider extends ContentProvider {
         int deletecount = 0;
         switch (mactch) {
             case CONTACT:
-                SQLiteDatabase db = dBhelp.getReadableDatabase();
-                deletecount = db.delete(DBhelp.T_COURSE, selection, selectionArgs);
+                SQLiteDatabase db = dBhelper.getReadableDatabase();
+                deletecount = db.delete(DBhelper.T_COURSE, selection, selectionArgs);
                 if (deletecount > 0)
                     Log.i("TAG", "delete: Success");
                 break;
@@ -103,8 +103,8 @@ public class CourseProvider extends ContentProvider {
         int updatacount = 0;
         switch (mactch) {
             case CONTACT:
-                SQLiteDatabase db = dBhelp.getReadableDatabase();
-                updatacount = db.update(DBhelp.T_COURSE, values, selection, selectionArgs);
+                SQLiteDatabase db = dBhelper.getReadableDatabase();
+                updatacount = db.update(DBhelper.T_COURSE, values, selection, selectionArgs);
                 if (updatacount > 0)
                     Log.i("TAG", "updata: Success");
                 break;

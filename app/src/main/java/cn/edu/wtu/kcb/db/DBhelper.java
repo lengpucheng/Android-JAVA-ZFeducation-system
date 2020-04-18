@@ -7,7 +7,7 @@ import android.provider.BaseColumns;
 
 import androidx.annotation.Nullable;
 
-public class DBhelp extends SQLiteOpenHelper {
+public class DBhelper extends SQLiteOpenHelper {
     public static final String T_COURSE="t_course";
     public class ContactTable implements BaseColumns {
         public static final  String ID="id";
@@ -24,7 +24,7 @@ public class DBhelp extends SQLiteOpenHelper {
         public static final  String TEST="test";//考试方法
     }
 
-    public DBhelp(@Nullable Context context) {
+    public DBhelper(@Nullable Context context) {
         super(context, "course.db", null, 1);
     }
 

@@ -9,19 +9,21 @@
         android:roundIcon="@mipmap/logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
-        <activity android:name="cn.edu.wtu.kcb.activity.EditCourseActivity"></activity>
-        <activity android:name="cn.edu.wtu.kcb.activity.OpenActivity">
+        <activity android:name=".test.UNCourseActivity">
+        </activity>
+        <activity android:name=".activity.EditCourseActivity" />
+        <activity android:name=".activity.OpenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="cn.edu.wtu.kcb.activity.CourseActivity" />
-        <activity android:name="cn.edu.wtu.kcb.activity.MainActivity"></activity>
+        <activity android:name=".activity.CourseActivity" />
+        <activity android:name=".activity.MainActivity" />
 
         <provider
-            android:name="cn.edu.wtu.kcb.db.CourseProvider"
+            android:name=".db.CourseProvider"
             android:authorities="cn.edu.wtu.kcb.db.CourseProvider"
             android:exported="true" />
     </application>

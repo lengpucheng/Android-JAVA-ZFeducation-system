@@ -15,7 +15,7 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 import cn.edu.wtu.kcb.model.Course;
 import cn.edu.wtu.kcb.db.CourseProvider;
-import cn.edu.wtu.kcb.db.DBhelp;
+import cn.edu.wtu.kcb.db.DBhelper;
 import cn.edu.wtu.kcb.R;
 
 public class EditCourseActivity extends AppCompatActivity {
@@ -107,7 +107,7 @@ public class EditCourseActivity extends AppCompatActivity {
     public void onViewClicked() {
         if (cheack()) {
             ContentValues cv = kcourse.getCV();
-            cv.put(DBhelp.ContactTable.NAME, kcourse.getName());
+            cv.put(DBhelper.ContactTable.NAME, kcourse.getName());
             if (isUP)
                 getContentResolver().update(CourseProvider.URI_COURSE, cv, "_id=?", new String[]{kcourse.getId()});
             else

@@ -42,6 +42,7 @@ import butterknife.InjectView;
 import cn.edu.wtu.kcb.model.Course;
 import cn.edu.wtu.kcb.db.CourseProvider;
 import cn.edu.wtu.kcb.R;
+import cn.edu.wtu.kcb.test.UNCourseActivity;
 import cn.edu.wtu.kcb.util.ThreadUtils;
 
 public class CourseActivity extends AppCompatActivity {
@@ -157,6 +158,7 @@ public class CourseActivity extends AppCompatActivity {
         menu.add(Menu.NONE, Menu.FIRST + 2, 3, "设置周数");
         menu.add(Menu.NONE, Menu.FIRST + 3, 4, "获取帮助");
         menu.add(Menu.NONE, Menu.FIRST + 4, 5, "关于软件");
+        menu.add(Menu.NONE, Menu.FIRST + 5, 6, "空课表（测试）");
     }
 
     @Override
@@ -225,6 +227,10 @@ public class CourseActivity extends AppCompatActivity {
                             }
                         }).setNeutralButtonIcon(getDrawable(R.mipmap.logo));
                 builder.create().show();
+                break;
+            case Menu.FIRST + 5:
+                Intent intent=new Intent(CourseActivity.this, UNCourseActivity.class);
+                startActivity(intent);
                 break;
         }
         return super.onContextItemSelected(item);
