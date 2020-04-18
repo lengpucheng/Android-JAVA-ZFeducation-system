@@ -1,4 +1,4 @@
-package cn.edu.wtu.kcbx_wtu;
+package cn.edu.wtu.kcb.util;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -32,7 +32,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class JWGL {
+import cn.edu.wtu.kcb.model.Course;
+
+public class JWhelper {
     private static String usernam = "";//用户名
     private static String password = "";//密码
     private static String cheack = "";//验证码
@@ -52,7 +54,7 @@ public class JWGL {
     private static String eff = "";//错误原因
     private static Bitmap checkIMG = null;//验证码
     private static List<Course> courses=new ArrayList<>();
-    public JWGL() {
+    public JWhelper() {
 
     }
 

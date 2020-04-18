@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="cn.edu.wtu.kcbx_wtu">
+    package="cn.edu.wtu.kcb">
 
     <application
         android:allowBackup="true"
@@ -9,20 +9,20 @@
         android:roundIcon="@mipmap/logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
-        <activity android:name=".EditCourseActivity"></activity>
-        <activity android:name=".OpenActivity">
+        <activity android:name="cn.edu.wtu.kcb.activity.EditCourseActivity"></activity>
+        <activity android:name="cn.edu.wtu.kcb.activity.OpenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Main2Activity" />
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name="cn.edu.wtu.kcb.activity.CourseActivity" />
+        <activity android:name="cn.edu.wtu.kcb.activity.MainActivity"></activity>
 
         <provider
-            android:name=".CourseProvider"
-            android:authorities="cn.edu.wtu.kcbx_wtu.CourseProvider"
+            android:name="cn.edu.wtu.kcb.db.CourseProvider"
+            android:authorities="cn.edu.wtu.kcb.db.CourseProvider"
             android:exported="true" />
     </application>
 

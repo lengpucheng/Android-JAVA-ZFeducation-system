@@ -1,4 +1,4 @@
-package cn.edu.wtu.kcbx_wtu;
+package cn.edu.wtu.kcb;
 
 import org.junit.Test;
 

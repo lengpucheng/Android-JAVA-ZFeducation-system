@@ -1,4 +1,4 @@
-package cn.edu.wtu.kcbx_wtu;
+package cn.edu.wtu.kcb.activity;
 
 import android.content.ContentValues;
 import android.content.Intent;
@@ -7,13 +7,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import cn.edu.wtu.kcb.model.Course;
+import cn.edu.wtu.kcb.db.CourseProvider;
+import cn.edu.wtu.kcb.db.DBhelp;
+import cn.edu.wtu.kcb.R;
 
 public class EditCourseActivity extends AppCompatActivity {
 
@@ -45,7 +48,7 @@ public class EditCourseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_course);
+        setContentView(R.layout.edit_course);
         ButterKnife.inject(this);
         kcourse = (Course) getIntent().getSerializableExtra("course");
         topText.setText("添加课程");
@@ -111,7 +114,7 @@ public class EditCourseActivity extends AppCompatActivity {
             else
                 getContentResolver().insert(CourseProvider.URI_COURSE, cv);
 
-            Intent intent=new Intent(EditCourseActivity.this,Main2Activity.class);
+            Intent intent=new Intent(EditCourseActivity.this, CourseActivity.class);
             //将这个意图设置为窗口顶端，并释放其他窗口
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);

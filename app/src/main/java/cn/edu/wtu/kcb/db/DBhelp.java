@@ -1,4 +1,4 @@
-package cn.edu.wtu.kcbx_wtu;
+package cn.edu.wtu.kcb.db;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

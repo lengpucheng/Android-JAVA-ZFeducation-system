@@ -1,11 +1,9 @@
-package cn.edu.wtu.kcbx_wtu;
+package cn.edu.wtu.kcb.activity;
 
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.ContentObserver;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.icu.text.SimpleDateFormat;
@@ -36,14 +34,17 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.net.URISyntaxException;
 import java.util.Date;
 import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import cn.edu.wtu.kcb.model.Course;
+import cn.edu.wtu.kcb.db.CourseProvider;
+import cn.edu.wtu.kcb.R;
+import cn.edu.wtu.kcb.util.ThreadUtils;
 
-public class Main2Activity extends AppCompatActivity {
+public class CourseActivity extends AppCompatActivity {
     public static final String KCB = "KCB";
     @InjectView(R.id.JCK)
     LinearLayout JCK;
@@ -79,7 +80,7 @@ public class Main2Activity extends AppCompatActivity {
             switch (msg.what){
                 case 1:
                     finish();
-                    Intent intent = new Intent(Main2Activity.this, MainActivity.class);
+                    Intent intent = new Intent(CourseActivity.this, MainActivity.class);
                     startActivity(intent);
                     break;
             }
@@ -89,7 +90,7 @@ public class Main2Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.kcb_activity);
+        setContentView(R.layout.course_activity);
         ButterKnife.inject(this);
         //创建一个sharedpreferences对象（三个字段，flag是否设置周数，week设置第几周，data设置时的时间
         SharedPreferences.Editor editor = getSharedPreferences(KCB, MODE_PRIVATE).edit();
@@ -127,13 +128,13 @@ public class Main2Activity extends AppCompatActivity {
                 editor.putInt("math", Calendar.getInstance().get(Calendar.MONTH));
                 editor.putInt("day", Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
                 editor.apply();
-                Toast.makeText(Main2Activity.this, "设置成功", Toast.LENGTH_SHORT).show();
+                Toast.makeText(CourseActivity.this, "设置成功", Toast.LENGTH_SHORT).show();
                 reView();
             }
         }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(Main2Activity.this, "取消设置", Toast.LENGTH_SHORT).show();
+                Toast.makeText(CourseActivity.this, "取消设置", Toast.LENGTH_SHORT).show();
             }
         });
         builder.create().show();
@@ -142,7 +143,7 @@ public class Main2Activity extends AppCompatActivity {
     //刷新界面
     private void reView() {
         finish();
-        Intent intent=new Intent(Main2Activity.this,Main2Activity.class);
+        Intent intent=new Intent(CourseActivity.this, CourseActivity.class);
         startActivity(intent);
     }
 
@@ -186,7 +187,7 @@ public class Main2Activity extends AppCompatActivity {
                 Imp.create().show();
                 break;
             case Menu.FIRST+1:
-                Intent add=new Intent(Main2Activity.this,EditCourseActivity.class);
+                Intent add=new Intent(CourseActivity.this,EditCourseActivity.class);
                 startActivity(add);
                 break;
             case Menu.FIRST+2:
@@ -204,7 +205,7 @@ public class Main2Activity extends AppCompatActivity {
                                 "任何服务器，请放心使用\n如果觉得有用的话把我分享给更多小伙伴或者左下角三连支持一波（⌒▽⌒）").setPositiveButton("知道啦", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                Toast.makeText(Main2Activity.this, "别忘记把我分享给朋友们哦（￣▽￣）", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(CourseActivity.this, "别忘记把我分享给朋友们哦（￣▽￣）", Toast.LENGTH_SHORT).show();
                             }
                         }).setNeutralButton("支持一下", new DialogInterface.OnClickListener() {
                             @Override
@@ -385,16 +386,16 @@ public class Main2Activity extends AppCompatActivity {
             textView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(Main2Activity.this).setTitle(course.getName()).setMessage(course.toString2())
+                    AlertDialog.Builder builder = new AlertDialog.Builder(CourseActivity.this).setTitle(course.getName()).setMessage(course.toString2())
                             .setPositiveButton("知道了", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    Toast.makeText(Main2Activity.this, "认真听讲别上课摸鱼哦(･∀･)", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(CourseActivity.this, "认真听讲别上课摸鱼哦(･∀･)", Toast.LENGTH_SHORT).show();
                                 }
                             }).setNegativeButton("编辑", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    Intent intent=new Intent(Main2Activity.this,EditCourseActivity.class);
+                                    Intent intent=new Intent(CourseActivity.this,EditCourseActivity.class);
                                     intent.putExtra("course",course);
                                     startActivity(intent);
                                 }
@@ -411,17 +412,17 @@ public class Main2Activity extends AppCompatActivity {
     }
 
     private void del(final Course course) {
-        AlertDialog.Builder check=new AlertDialog.Builder(Main2Activity.this).setTitle("确定删除Σ(ﾟдﾟ;)？")
+        AlertDialog.Builder check=new AlertDialog.Builder(CourseActivity.this).setTitle("确定删除Σ(ﾟдﾟ;)？")
                 .setPositiveButton("我点错了", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(Main2Activity.this, "哈哈！每个人都有手滑的时候\n已经帮你取消删除啦ε=ε=(ノ≧∇≦)ノ", Toast.LENGTH_SHORT).show();
+                Toast.makeText(CourseActivity.this, "哈哈！每个人都有手滑的时候\n已经帮你取消删除啦ε=ε=(ノ≧∇≦)ノ", Toast.LENGTH_SHORT).show();
             }
         }).setNegativeButton("确定删除", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         getContentResolver().delete(CourseProvider.URI_COURSE,"_id=?",new String[]{course.getId()});
-                        Toast.makeText(Main2Activity.this, "删除成功（￣▽￣）", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CourseActivity.this, "删除成功（￣▽￣）", Toast.LENGTH_SHORT).show();
                         reView();
                     }
                 });

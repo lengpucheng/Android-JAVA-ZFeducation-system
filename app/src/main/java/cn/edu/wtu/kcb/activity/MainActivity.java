@@ -1,4 +1,4 @@
-package cn.edu.wtu.kcbx_wtu;
+package cn.edu.wtu.kcb.activity;
 
 import android.content.Intent;
 import android.icu.util.Calendar;
@@ -25,6 +25,11 @@ import java.util.List;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import cn.edu.wtu.kcb.model.Course;
+import cn.edu.wtu.kcb.db.CourseProvider;
+import cn.edu.wtu.kcb.util.JWhelper;
+import cn.edu.wtu.kcb.R;
+import cn.edu.wtu.kcb.util.ThreadUtils;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,27 +44,27 @@ public class MainActivity extends AppCompatActivity {
     @InjectView(R.id.ok)
     Button ok;
     String id;
-    JWGL jwgl = new JWGL();
+    JWhelper helper = new JWhelper();
     Handler handler = new Handler() {
         @Override
         public void handleMessage(@NonNull Message msg) {
             super.handleMessage(msg);
             switch (msg.what) {
                 case 1:
-                    checkIMG.setImageBitmap(jwgl.getCheckIMG());
+                    checkIMG.setImageBitmap(helper.getCheckIMG());
                     break;
                 case 2:
-                    Toast.makeText(MainActivity.this, "获取验证码失败" + jwgl.getEff(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "获取验证码失败" + helper.getEff(), Toast.LENGTH_SHORT).show();
                     break;
                 case 3:
-                    Toast.makeText(MainActivity.this, "登录成功"+jwgl.getEff(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "登录成功"+ helper.getEff(), Toast.LENGTH_SHORT).show();
                     CheckTest();
                     break;
                 case 4:
-                    Toast.makeText(MainActivity.this, "登录失败" + jwgl.getEff(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "登录失败" + helper.getEff(), Toast.LENGTH_SHORT).show();
                     break;
                 case 9:
-                    Intent intent = new Intent(MainActivity.this, Main2Activity.class);
+                    Intent intent = new Intent(MainActivity.this, CourseActivity.class);
                     startActivity(intent);
                     finish();
                     break;
@@ -77,10 +82,10 @@ public class MainActivity extends AppCompatActivity {
         ThreadUtils.runInThread(new Runnable() {
             @Override
             public void run() {
-                if (jwgl.getURI()){
-                    if (jwgl.isCourse(year, semester)) {
+                if (helper.getURI()){
+                    if (helper.isCourse(year, semester)) {
                         getContentResolver().delete(CourseProvider.URI_COURSE, null,null);
-                        List<Course> courses = jwgl.getCourses();
+                        List<Course> courses = helper.getCourses();
                         for (Course course : courses) {
                             Log.i("KCB", course.toString());
                             getContentResolver().insert(CourseProvider.URI_COURSE, course.getCV());
@@ -139,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 Message msg = new Message();
-                if (jwgl.isCheckIMG())
+                if (helper.isCheckIMG())
                     msg.what = 1;
                 else
                     msg.what = 2;
@@ -152,12 +157,12 @@ public class MainActivity extends AppCompatActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.checkIMG:
-                jwgl = new JWGL();
+                helper = new JWhelper();
                 ThreadUtils.runInThread(new Runnable() {
                     @Override
                     public void run() {
                         Message msg = new Message();
-                        if (jwgl.isCheckIMG())
+                        if (helper.isCheckIMG())
                             msg.what = 1;
                         else
                             msg.what = 2;
@@ -176,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         Message message = new Message();
-                        if (jwgl.login(id, password, cheack))
+                        if (helper.login(id, password, cheack))
                             message.what = 3;
                         else
                             message.what = 4;
