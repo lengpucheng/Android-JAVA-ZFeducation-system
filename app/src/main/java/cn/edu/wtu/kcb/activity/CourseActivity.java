@@ -352,7 +352,7 @@ public class CourseActivity extends AppCompatActivity {
                 case "星期六":
                     week = 5;
                     break;
-                case "星期七":
+                case "星期日":
                     week = 6;
                     break;
                 default:

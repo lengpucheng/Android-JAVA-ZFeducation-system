@@ -1,3 +1,6 @@
+
+
+
 # Android-JAVA-ZFeducation-system
 在安卓上使用JAVA-HttpClient5.0从正方教务系统上爬取课程表等相关信息，并且设计了用户显示界面，按课程时间和周显示课表
 
@@ -48,6 +51,18 @@ Signed-off-by: lengpucheng <lpc@hll520.cn>
 *更新了项目结构，将方法按用途分包分类，便于维护和扩展*
 *优化了数据结构，将周和节变为`int MIN,MAX` 分别存储，便于扩展*
 
+
+## 2020/4/21日更新
++ *添加了空课表测试*
++ *修正了很蠢的星期七bug*
+
+
+# 效果演示
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20200418162200474.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1hpYW9ZdW5LdWFpRmVp,size_16,color_FFFFFF,t_70)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20200418162257502.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1hpYW9ZdW5LdWFpRmVp,size_16,color_FFFFFF,t_70)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20200418162215102.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1hpYW9ZdW5LdWFpRmVp,size_16,color_FFFFFF,t_70)
+
+![在这里插入图片描述](https://img-blog.csdnimg.cn/2020041816232963.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1hpYW9ZdW5LdWFpRmVp,size_16,color_FFFFFF,t_70)
 
 
 # 详情信息说明
@@ -484,14 +499,7 @@ for (final Course course : courses) {
         return (int) (dpValue * scale + 0.5f);
     }
 ```
-至此这个APP搭建完毕*省略了登录页面，这个实现方法已经在上文`JWhelper（）`中实现，具体界面可以自己实现,本文实在是太长了，不在赘述*，康康效果吧！
-
-## 效果演示
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20200418162200474.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1hpYW9ZdW5LdWFpRmVp,size_16,color_FFFFFF,t_70)
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20200418162257502.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1hpYW9ZdW5LdWFpRmVp,size_16,color_FFFFFF,t_70)
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20200418162215102.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1hpYW9ZdW5LdWFpRmVp,size_16,color_FFFFFF,t_70)
-
-![在这里插入图片描述](https://img-blog.csdnimg.cn/2020041816232963.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1hpYW9ZdW5LdWFpRmVp,size_16,color_FFFFFF,t_70)
+至此这个APP搭建完毕*省略了登录页面，这个实现方法已经在上文`JWhelper（）`中实现，具体界面可以自己实现,本文实在是太长了，不在赘述*
 
 ## 后记
 以上是安卓APP抓取教务系统课表等信息并显示的主要部分分析和代码实现，**本项目的源码我已经开源放到了GitHub上**，大家可以在GitHub上下载源码进行扩展创作：
