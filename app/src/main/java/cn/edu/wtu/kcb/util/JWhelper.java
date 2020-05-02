@@ -32,6 +32,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.script.Invocable;
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+
 import cn.edu.wtu.kcb.model.Course;
 
 public class JWhelper {
@@ -39,6 +43,7 @@ public class JWhelper {
     private static String password = "";//密码
     private static String cheack = "";//验证码
     private static String lt = "";//页面lt
+    private static String pwdkey = "";//页面公钥
     private static String JSESSION = "";//cookies 1/2
     private static String ROUTE = ""; //cookies 2/2
     private static String iPlanetDirectoryPro = null;  //真实cookies
@@ -90,15 +95,15 @@ public class JWhelper {
         String vlue = null;
         try {
             vlue = EntityUtils.toString(entity, "UTF-8");
-        } catch (IOException e) {
-            return toEffexecute("解析错误:Get-1");
-        } catch (ParseException e) {
+        } catch (IOException | ParseException e) {
             return toEffexecute("解析错误:Get-1");
         }
         Document document = Jsoup.parseBodyFragment(vlue);//转换为文档树
         Element body = document.body();//获取主体
         //找到lt
         lt = body.select("[name=lt]").attr("value");
+        //得到公钥
+        pwdkey=body.select("[id=pwdDefaultEncryptSalt]").attr("value");
         //得到Cookies
         Header[] headers = response.getHeaders("Set-Cookie");
         ROUTE = headers[0].getValue().split(";")[0].split("=")[1];
@@ -106,6 +111,7 @@ public class JWhelper {
 
         Log.i("JWXTEFF", "Cookies GET1 Jsession:" + JSESSION);
         Log.i("JWXTEFF", "lt: " + lt);
+        Log.i("JWXTEFF", "pwdkey: " + pwdkey);
         Log.i("JWXTEFF", "Cookies GET1 Route:" + ROUTE);
         /*
          * 获取验证码
@@ -129,15 +135,53 @@ public class JWhelper {
         return true;
     }
 
+
+
+    /*
+     * AES加密算法
+     * */
+    private void doAES(){
+        String url="https://auth.wtu.edu.cn/authserver/custom/js/encrypt.js";
+        httpGet=new HttpGet(url);
+        try {
+            //获取响应内容
+            response=httpClient.execute(httpGet);
+        } catch (IOException e) {
+            e.printStackTrace();
+            toEffexecute("获取AES失败");
+        }
+        //解析内容
+        HttpEntity httpEntity=response.getEntity();
+        try {
+            //获取js
+            String js= EntityUtils.toString(httpEntity,"UTF-8");
+            //实例化一个脚本运行器
+            ScriptEngine engine = new ScriptEngineManager().getEngineByName("javascript");
+            //写入函数
+            engine.eval(js);
+            //实例化引用
+            Invocable invoke = (Invocable) engine;
+            //调用函数
+            password= (String) invoke.invokeFunction("encryptAES",password,pwdkey);
+            Log.i("JWXTEFF", "AES2PASSWORD:" + password);
+        } catch (Exception e) {
+            e.printStackTrace();
+            toEffexecute("AES加密失败");
+        }
+    }
+
+
     /*
      * 第二步:POST登录 获取Location和iPlanetDirectoryPro
      * */
     public boolean login(String id, String pass, String code) {
-        this.usernam = id;
-        this.password = pass;
-        this.cheack = code;
-        String loURI = "https://auth.wtu.edu.cn/authserver/login;jsessionid=" + JSESSION + "?service=http%3A%2F%2Fjwglxt.wtu.edu.cn%2Fsso%2Fjziotlogin";
-        ;
+        usernam = id;
+        password = pass;
+        cheack = code;
+        doAES();
+        String loURI = "https://auth.wtu.edu.cn/authserver/login;jsessionid=" +
+                JSESSION +
+                "?service=http%3A%2F%2Fjwglxt.wtu.edu.cn%2Fsso%2Fjziotlogin";
         httpPost = new HttpPost(loURI);
         //请求头
         httpPost.setHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
