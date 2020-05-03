@@ -20,7 +20,6 @@ import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -39,9 +38,9 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import cn.edu.wtu.kcb.model.Course;
-import cn.edu.wtu.kcb.db.CourseProvider;
 import cn.edu.wtu.kcb.R;
+import cn.edu.wtu.kcb.db.CourseProvider;
+import cn.edu.wtu.kcb.model.Course;
 import cn.edu.wtu.kcb.test.UNCourseActivity;
 import cn.edu.wtu.kcb.util.ThreadUtils;
 
@@ -202,7 +201,7 @@ public class CourseActivity extends AppCompatActivity {
                 break;
             case Menu.FIRST + 4:
                 AlertDialog.Builder builder=new AlertDialog.Builder(this).setTitle("关于软件").setIcon(R.mipmap.logo)
-                        .setMessage("名称：我的课表\n版本：v2.01\n开发者：lengPucheng\n隐私说明：我的课表是2020年4月制作的一个模块测试衍生品，" +
+                        .setMessage("名称：我的课表\n版本：v2.31\n开发者：lengPucheng\n隐私说明：我的课表是2020年4月制作的一个模块测试衍生品，" +
                                 "学号和密码仅用于登录教务系统获取课表软件不会收集和保存任何关于使用者的个人信息，所有操作均在使用者本地完成，不会链接除教务系统以外的" +
                                 "任何服务器，请放心使用\n如果觉得有用的话把我分享给更多小伙伴或者左下角三连支持一波（⌒▽⌒）").setPositiveButton("知道啦", new DialogInterface.OnClickListener() {
                             @Override
